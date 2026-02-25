@@ -1,11 +1,39 @@
-body { font-family: Arial, sans-serif; margin: 20px; }
-    #log { 
-      margin-top: 20px; 
-      padding: 10px; 
-      border: 1px solid #ccc; 
-      min-height: 200px; 
-      max-height: 400px; 
-      overflow-y: scroll; 
-      font-family: monospace; 
-    }
-    button { padding: 10px 15px; font-size: 16px; }
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: rgb(46, 49, 50);
+}
+h1 {
+  text-align: center;
+  color: #ec08c2;
+  font-size: 2rem;
+}
+#log {
+  color:aliceblue;
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  min-height: 200px;
+  max-height: 400px;
+  overflow-y: scroll;
+  font-family: monospace;
+}
+
+label{
+    color:aliceblue;
+}
+
+button {
+  padding: 10px 15px;
+  font-size: 16px;
+}
+
+/* Mobile styles */
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+  button {
+    width: 100%;
+  }
+}

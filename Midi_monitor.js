@@ -1,4 +1,12 @@
-javascript:(function() {
+function clearLogs() {
+  const midi_mon = document.getElementById('midi_test');
+  if (midi_mon) {
+    midi_mon.querySelector('#note strong').textContent = '-';
+    midi_mon.querySelector('#velocity strong').textContent = '-';
+  }
+}
+
+function  start_monitor(){  
   if (navigator.requestMIDIAccess) {
     navigator.requestMIDIAccess().then(
       function success(midiAccess) {
@@ -27,6 +35,12 @@ javascript:(function() {
               document.body.appendChild(midi_mon);
             }
         
+            /*
+            if ((message.data[0] === 144 && document.getElementById('noteOn').checked) ||
+                (message.data[0] === 128 && document.getElementById('noteOff').checked) ||
+                (message.data[0] >= 176 && message.data[0] <= 191 && document.getElementById('cc').checked)) {
+                // Update display
+            }           */
             if (message.data[0] != 128){
             midi_mon.querySelector('#note strong').textContent = message.data[1];
             midi_mon.querySelector('#velocity strong').textContent = message.data[2];}
@@ -40,4 +54,4 @@ javascript:(function() {
   } else {
     alert('Web MIDI API not supported in this browser');
   }
-})();
+};

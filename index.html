@@ -6,6 +6,10 @@
 <body>
   <h1>MIDI Monitor</h1>
   <button onclick="requestMIDIAccess()">Start MIDI Monitoring</button>
+  <label><input type="checkbox" id="noteOn" checked> Note On</label>
+  <label><input type="checkbox" id="noteOff" checked> Note Off</label>
+  <label><input type="checkbox" id="cc" checked> Control Change</label>
+  <button onclick="clearLogs()">Clear Logs</button>
   <div id="log">Waiting for MIDI input...</div>
 
   <!-- Your content -->
