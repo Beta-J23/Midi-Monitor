@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MIDI Monitor</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #log { 
+      margin-top: 20px; 
+      padding: 10px; 
+      border: 1px solid #ccc; 
+      min-height: 200px; 
+      max-height: 400px; 
+      overflow-y: scroll; 
+      font-family: monospace; 
+    }
+    button { padding: 10px 15px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h1>MIDI Monitor</h1>
+  <button onclick="requestMIDIAccess()">Start MIDI Monitoring</button>
+  <div id="log">Waiting for MIDI input...</div>
+
+  <script>
+    let log = document.getElementById("log");
+
+    function addToLog(message) {
+      const entry = document.createElement("p");
+      entry.textContent = message;
+      log.prepend(entry); // Newest at top
+    }
+
+    function requestMIDIAccess() {
+      if (navigator.requestMIDIAccess) {
+        navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
+      } else {
+        addToLog("Web MIDI not supported in this browser.");
+      }
+    }
+
+    function onMIDISuccess(midiAccess) {
+      addToLog("MIDI ready!");
+      const inputs = midiAccess.inputs.values();
+      for (let input = inputs.next(); input && !input.done; input = inputs.next()) {
+        input.value.onmidimessage = onMIDIMessage;
+      }
+    }
+
+    function onMIDIFailure() {
+      addToLog("Failed to access MIDI devices.");
+    }
+
+    function onMIDIMessage(event) {
+      const data = event.data;
+      const cmd = data[0] >> 4;
+      const channel = data[0] & 0xf;
+      const noteNumber = data[1];
+      const velocity = data[2];
+
+      let message = `Channel: ${channel}, Cmd: ${cmd}, Note: ${noteNumber}, Velocity: ${velocity}`;
+      addToLog(new Date().toLocaleTimeString() + " — " + message);
+    }
+  </script>
+</body>
+</html>
